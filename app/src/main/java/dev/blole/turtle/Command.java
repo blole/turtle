@@ -1,5 +1,7 @@
 package dev.blole.turtle;
 
+import java.util.Arrays;
+
 import org.jetbrains.annotations.NotNull;
 
 public sealed interface Command permits
@@ -38,14 +40,21 @@ public sealed interface Command permits
     public static final Command.Report Report = new Command.Report();
 
     public static Command parse(@NotNull String line) {
-        if (line.isEmpty()) {
+        String[] args = line.split(",", -1);
+
+        if (args.length == 0) {
             throw new IllegalArgumentException("empty lines are not permitted");
         }
-        String[] x = line.split(",");
-        switch (x[0]) {
+
+        if ((args[0].equals("PLACE") && args.length != 4)
+                || (!args[0].equals("PLACE") && args.length != 1)) {
+            throw new IllegalArgumentException("unexpected number of arguments in command: " + Arrays.toString(args));
+        }
+
+        switch (args[0]) {
             case "PLACE":
-                return new Command.Place(new Position(Integer.parseInt(x[1]), Integer.parseInt(x[2])),
-                        Direction.valueOf(x[3]));
+                return new Command.Place(new Position(Integer.parseInt(args[1]), Integer.parseInt(args[2])),
+                        Direction.valueOf(args[3]));
             case "MOVE":
                 return Command.Move;
             case "LEFT":
@@ -55,7 +64,7 @@ public sealed interface Command permits
             case "REPORT":
                 return Command.Report;
             default:
-                throw new IllegalArgumentException("unknown command " + x[0]);
+                throw new IllegalArgumentException("unknown command " + args[0]);
         }
     }
 }
