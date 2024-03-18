@@ -12,21 +12,30 @@ public sealed interface Command permits
     final record Place(@NotNull Position pos, @NotNull Direction dir) implements Command {
     }
 
-    final record Move() implements Command {
-
+    final class Move implements Command {
+        private Move() {
+        }
     }
 
-    final record Left() implements Command {
-
+    final class Left implements Command {
+        private Left() {
+        }
     }
 
-    final record Right() implements Command {
-
+    final class Right implements Command {
+        private Right() {
+        }
     }
 
-    final record Report() implements Command {
-
+    final class Report implements Command {
+        private Report() {
+        }
     }
+
+    public static final Command.Move Move = new Command.Move();
+    public static final Command.Left Left = new Command.Left();
+    public static final Command.Right Right = new Command.Right();
+    public static final Command.Report Report = new Command.Report();
 
     public static Command parse(@NotNull String line) {
         if (line.isEmpty()) {
@@ -38,13 +47,13 @@ public sealed interface Command permits
                 return new Command.Place(new Position(Integer.parseInt(x[1]), Integer.parseInt(x[2])),
                         Direction.valueOf(x[3]));
             case "MOVE":
-                return new Command.Move();
+                return Command.Move;
             case "LEFT":
-                return new Command.Left();
+                return Command.Left;
             case "RIGHT":
-                return new Command.Right();
+                return Command.Right;
             case "REPORT":
-                return new Command.Report();
+                return Command.Report;
             default:
                 throw new IllegalArgumentException("unknown command " + x[0]);
         }

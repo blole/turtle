@@ -31,12 +31,12 @@ class RobotTest {
 
     @Test
     public void onlyReportAfterPlacedOnTable() {
-        robot.execute(new Command.Report());
+        robot.execute(Command.Report);
         robot.execute(new Command.Place(new Position(-2, 0), Direction.WEST));
-        robot.execute(new Command.Report());
+        robot.execute(Command.Report);
         verify(tabletop, never()).report(any());
         robot.execute(new Command.Place(new Position(-1, -1), Direction.EAST));
-        robot.execute(new Command.Report());
+        robot.execute(Command.Report);
         verify(tabletop).report("REPORT,-1,-1,EAST");
     }
 
@@ -73,22 +73,22 @@ class RobotTest {
          * 
          */
         robot.execute(new Command.Place(new Position(-1, 0), Direction.NORTH));
-        robot.execute(new Command.Move());
-        robot.execute(new Command.Right());
-        robot.execute(new Command.Move());
-        robot.execute(new Command.Right());
-        robot.execute(new Command.Move());
+        robot.execute(Command.Move);
+        robot.execute(Command.Right);
+        robot.execute(Command.Move);
+        robot.execute(Command.Right);
+        robot.execute(Command.Move);
         assertEquals(new Position(0, 0), robot.pos);
-        robot.execute(new Command.Move());
-        robot.execute(new Command.Left());
-        robot.execute(new Command.Move());
-        robot.execute(new Command.Left());
-        robot.execute(new Command.Move());
-        robot.execute(new Command.Left());
-        robot.execute(new Command.Left());
+        robot.execute(Command.Move);
+        robot.execute(Command.Left);
+        robot.execute(Command.Move);
+        robot.execute(Command.Left);
+        robot.execute(Command.Move);
+        robot.execute(Command.Left);
+        robot.execute(Command.Left);
         assertEquals(new Position(1, 0), robot.pos);
         assertEquals(Direction.SOUTH, robot.dir);
-        robot.execute(new Command.Report());
+        robot.execute(Command.Report);
         verify(tabletop).report("REPORT,1,0,SOUTH");
     }
 }
