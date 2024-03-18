@@ -1,0 +1,9 @@
+**/*Dockerfile
+**/.dockerignore
+**/.gitignore
+
+.devcontainer/
+.github/
+.vscode/
+scripts/
+.code-workspace
