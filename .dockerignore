@@ -1,6 +1,7 @@
 **/*Dockerfile
 **/.dockerignore
 **/.gitignore
+**/.gitattributes
 
 .devcontainer/
 .github/
