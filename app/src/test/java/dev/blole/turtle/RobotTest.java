@@ -49,6 +49,8 @@ class RobotTest {
         assertNull(robot.pos);
         robot.execute(new Command.Place(new Position(1, 1), Direction.NORTH));
         assertEquals(new Position(1, 1), robot.pos);
+        robot.execute(new Command.Place(new Position(-1, -2), Direction.EAST));
+        assertEquals(new Position(1, 1), robot.pos);
     }
 
     @Test
@@ -59,6 +61,17 @@ class RobotTest {
         robot.execute(new Command.Place(new Position(0, 1), Direction.SOUTH));
         assertEquals(new Position(0, 1), robot.pos);
         assertEquals(Direction.SOUTH, robot.dir);
+    }
+
+    @Test
+    public void cantMoveOffTable() {
+        robot.execute(new Command.Place(new Position(0, 0), Direction.NORTH));
+        assertEquals(new Position(0, 0), robot.pos);
+        robot.execute(Command.Move);
+        assertEquals(new Position(0, 1), robot.pos);
+        robot.execute(Command.Move);
+        assertEquals(new Position(0, 1), robot.pos);
+        robot.execute(Command.Right);
     }
 
     @Test
