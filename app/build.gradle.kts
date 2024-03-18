@@ -3,8 +3,9 @@ import com.adarshr.gradle.testlogger.TestLoggerPlugin
 import com.adarshr.gradle.testlogger.theme.ThemeType
 
 plugins {
-    application
+    java
     id("com.adarshr.test-logger") version "4.0.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
@@ -50,6 +51,9 @@ plugins.withType<TestLoggerPlugin> {
     }
 }
 
-application {
-    mainClass = "dev.blole.Main"
+tasks.shadowJar {
+    archiveBaseName.set("turtle")
+    manifest {
+        attributes("Main-Class" to "dev.blole.turtle.Main")
+    }
 }

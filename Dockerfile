@@ -25,7 +25,7 @@ COPY app/build.gradle.kts app/
 COPY app/src/main/ app/src/main/
 
 FROM app AS app-build
-RUN gradle build |& tee /output/app/build.txt
+RUN gradle shadowJar |& tee /output/app/build.txt
 
 FROM app AS app-test
 COPY app/src/test/ app/src/test/
