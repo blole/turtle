@@ -15,7 +15,7 @@ COPY \
     gradle.properties \
     settings.gradle.kts \
     ./
-ENV GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.console=verbose"
+ENV GRADLE_OPTS="-Dorg.gradle.daemon=false"
 
 
 
