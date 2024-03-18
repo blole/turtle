@@ -1,5 +1,10 @@
+import com.adarshr.gradle.testlogger.TestLoggerExtension
+import com.adarshr.gradle.testlogger.TestLoggerPlugin
+import com.adarshr.gradle.testlogger.theme.ThemeType
+
 plugins {
     application
+    id("com.adarshr.test-logger") version "4.0.0"
 }
 
 repositories {
@@ -7,6 +12,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains:annotations:24.1.0")
+    testImplementation("org.mockito:mockito-core:5.11.0")
 }
 
 testing {
@@ -17,9 +24,29 @@ testing {
     }
 }
 
+tasks.withType<Test> {
+    /*
+     * running tests otherwise prints:
+     * WARNING: A Java agent has been loaded dynamically (/root/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.12/be4984cb6fd1ef1d11f218a648889dfda44b8a15/byte-buddy-agent-1.14.12.jar)
+     * WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+     * WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+     * WARNING: Dynamic loading of agents will be disallowed by default in a future release
+     */
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+plugins.withType<TestLoggerPlugin> {
+    configure<TestLoggerExtension> {
+        theme = ThemeType.MOCHA_PARALLEL
+        showSimpleNames = true
+        slowThreshold = 20
+        showStandardStreams = true
     }
 }
 
