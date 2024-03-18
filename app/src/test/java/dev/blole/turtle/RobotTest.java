@@ -15,29 +15,33 @@ import org.junit.jupiter.api.BeforeEach;
 
 class RobotTest {
 
-    private static Tabletop tabletop = spy(new Tabletop(-1, -1, 1, 1));
+    private Tabletop tabletop = spy(new Tabletop(-1, -1, 1, 1));
 
     private Robot robot;
-
-    @BeforeAll
-    private static void beforeAll() {
-        doNothing().when(tabletop).report(any());
-    }
 
     @BeforeEach
     private void beforeEach() {
         robot = new Robot(tabletop);
+        doNothing().when(tabletop).report(any());
     }
 
     @Test
-    public void onlyReportAfterPlacedOnTable() {
+    public void ignoreCommandsUntilPlacedOnTable() {
+        robot.execute(Command.Left);
+        robot.execute(Command.Move);
         robot.execute(Command.Report);
         robot.execute(new Command.Place(new Position(-2, 0), Direction.WEST));
         robot.execute(Command.Report);
+        robot.execute(Command.Move);
+        robot.execute(Command.Right);
         verify(tabletop, never()).report(any());
+        assertNull(robot.pos);
+        assertNull(robot.dir);
         robot.execute(new Command.Place(new Position(-1, -1), Direction.EAST));
         robot.execute(Command.Report);
         verify(tabletop).report("REPORT,-1,-1,EAST");
+        assertEquals(new Position(-1, -1), robot.pos);
+        assertEquals(Direction.EAST, robot.dir);
     }
 
     @Test
