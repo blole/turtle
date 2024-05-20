@@ -28,7 +28,7 @@
     }
   },
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2.10.1": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2.11.0": {
       "version": "latest",
       "enableNonRootDocker": "true",
       "moby": "true"
